@@ -1,0 +1,56 @@
+<% layout('layouts/boilerPlate') %> 
+
+    <div class="row mt-5 my-5">
+        <div class="col-md-7">
+        
+        <img  src="<%= campground.image %>" class="img-fluid" style="height: 20rem; width: 100%;" alt="">
+        <!-- <h3>Camp ground show</h3> -->
+        <h4><%= campground.title %> </h4>
+        <h6><%= campground.location %> </h6>
+        <p><%= campground.description %> </p>
+        <h6>Price: Ksh/=<%= campground.price %> </h6>
+        
+        <footer>
+            <div class="btn-group">
+                <a href="/campgrounds"><button class="btn btn-primary mx-1">Back</button></a> <br> <br>
+                <a href="/campgrounds/<%= campground._id %>/edit "><button class="btn btn-warning">Edit</button></a> <br> <br> 
+              </div>
+            <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                <button class='btn btn-danger'>Delete</button> <br> <br>
+            </form>
+            
+        </footer>
+        </div>
+
+        <!-- reviews  -->
+        <div class="col-md-5">
+            <h3>Leave a Review</h3>
+            <form action="/campgrounds/<%= campground._id%>/reviews"  method="POST" class="validated-form" novalidate>
+                <div class="mb-3">
+                    <label class="form-lable" for="rating">Rating</label>
+                    <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
+                </div>
+    
+                <div class="mb-3">
+                    <label class="form-lable" for="body">Review</label>
+                    <textarea class="form-control" name="review[body]" required id="review" cols="30" rows="3"></textarea>
+                </div>
+                <div class="valid-feedback">Looks good!</div>
+                <button class="btn btn-success mb-2">Submit</button>
+            </form>
+
+            <% for(let review of campground.reviews) { %>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Rating: <%= review.rating %> </h5>
+                        <p class="card-text">Review: <%= review.body %> </p>
+                        <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE  " method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+               
+            <% } %> 
+            
+        </div>
+    </div>
